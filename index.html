@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horse Classifieds</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .add-listing {
+            background-color: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .listings {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .listing {
+            background-color: white;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .listing-image {
+            height: 200px;
+            background-color: #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .listing-content {
+            padding: 15px;
+        }
+        .listing-title {
+            font-size: 1.2rem;
+            margin: 0 0 10px 0;
+        }
+        .listing-price {
+            font-weight: bold;
+            color: #27ae60;
+        }
+        .listing-description {
+            margin: 10px 0;
+        }
+        .listing-contact {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-top: 1px solid #eee;
+        }
+        form {
+            display: grid;
+            gap: 10px;
+        }
+        label {
+            font-weight: bold;
+        }
+        input, textarea, select {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 100%;
+        }
+        button {
+            background-color: #2c3e50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        button:hover {
+            background-color: #1a2a3a;
+        }
+        footer {
+            margin-top: 30px;
+            text-align: center;
+            color: #666;
+        }
+        @media (max-width: 768px) {
+            .listings {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Horse Classifieds</h1>
+            <p>Buy and sell horses with ease</p>
+        </header>
+
+        <div class="add-listing">
+            <h2>Add a New Listing</h2>
+            <form id="listingForm">
+                <div>
+                    <label for="title">Horse Name/Title:</label>
+                    <input type="text" id="title" name="title" required>
+                </div>
+                <div>
+                    <label for="breed">Breed:</label>
+                    <input type="text" id="breed" name="breed" required>
+                </div>
+                <div>
+                    <label for="age">Age:</label>
+                    <input type="number" id="age" name="age" min="0" max="40" required>
+                </div>
+                <div>
+                    <label for="gender">Gender:</label>
+                    <select id="gender" name="gender" required>
+                        <option value="">Select One</option>
+                        <option value="Stallion">Stallion</option>
+                        <option value="Mare">Mare</option>
+                        <option value="Gelding">Gelding</option>
+                        <option value="Colt">Colt</option>
+                        <option value="Filly">Filly</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="price">Price ($):</label>
+                    <input type="number" id="price" name="price" min="0" required>
+                </div>
+                <div>
+                    <label for="location">Location:</label>
+                    <input type="text" id="location" name="location" required>
+                </div>
+                <div>
+                    <label for="description">Description:</label>
+                    <textarea id="description" name="description" rows="4" required></textarea>
+                </div>
+                <div>
+                    <label for="contact">Contact Info:</label>
+                    <input type="text" id="contact" name="contact" required>
+                </div>
+                <div>
+                    <button type="submit">Post Listing</button>
+                </div>
+            </form>
+        </div>
+
+        <h2>Current Listings</h2>
+        <div class="listings" id="listingsContainer">
+            <!-- Sample listings -->
+            <div class="listing">
+                <div class="listing-image">
+                    <img src="/api/placeholder/300/200" alt="Quarter Horse">
+                </div>
+                <div class="listing-content">
+                    <h3 class="listing-title">8-Year-Old Quarter Horse</h3>
+                    <p><strong>Breed:</strong> Quarter Horse</p>
+                    <p><strong>Age:</strong> 8 years</p>
+                    <p><strong>Gender:</strong> Gelding</p>
+                    <p class="listing-price">$5,500</p>
+                    <p class="listing-description">Well-trained quarter horse with excellent temperament. Great for trail riding and beginners. Has been used in western pleasure competitions.</p>
+                    <div class="listing-contact">
+                        <p><strong>Location:</strong> Lexington, KY</p>
+                        <p><strong>Contact:</strong> John at (555) 123-4567</p>
+                    </div>
+                </div>
+            </div>
+            <div class="listing">
+                <div class="listing-image">
+                    <img src="/api/placeholder/300/200" alt="Thoroughbred">
+                </div>
+                <div class="listing-content">
+                    <h3 class="listing-title">4-Year-Old Thoroughbred</h3>
+                    <p><strong>Breed:</strong> Thoroughbred</p>
+                    <p><strong>Age:</strong> 4 years</p>
+                    <p><strong>Gender:</strong> Mare</p>
+                    <p class="listing-price">$8,200</p>
+                    <p class="listing-description">Athletic thoroughbred with racing bloodlines. Has basic training and is ready for more advanced work. Excellent potential for eventing or dressage.</p>
+                    <div class="listing-contact">
+                        <p><strong>Location:</strong> Ocala, FL</p>
+                        <p><strong>Contact:</strong> Sarah at (555) 987-6543</p>
+                    </div>
+                </div>
+            </div>
+            <div class="listing">
+                <div class="listing-image">
+                    <img src="/api/placeholder/300/200" alt="Arabian">
+                </div>
+                <div class="listing-content">
+                    <h3 class="listing-title">12-Year-Old Arabian</h3>
+                    <p><strong>Breed:</strong> Arabian</p>
+                    <p><strong>Age:</strong> 12 years</p>
+                    <p><strong>Gender:</strong> Stallion</p>
+                    <p class="listing-price">$11,000</p>
+                    <p class="listing-description">Beautiful Arabian stallion with excellent conformation. Experienced in shows and has won multiple championships. Great for breeding or experienced riders.</p>
+                    <div class="listing-contact">
+                        <p><strong>Location:</strong> Scottsdale, AZ</p>
+                        <p><strong>Contact:</strong> Mike at (555) 456-7890</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Horse Classifieds. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.getElementById('listingForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            // Get form values
+            const title = document.getElementById('title').value;
+            const breed = document.getElementById('breed').value;
+            const age = document.getElementById('age').value;
+            const gender = document.getElementById('gender').value;
+            const price = document.getElementById('price').value;
+            const location = document.getElementById('location').value;
+            const description = document.getElementById('description').value;
+            const contact = document.getElementById('contact').value;
+            
+            // Create new listing
+            const listingsContainer = document.getElementById('listingsContainer');
+            const newListing = document.createElement('div');
+            newListing.className = 'listing';
+            
+            newListing.innerHTML = `
+                <div class="listing-image">
+                    <img src="/api/placeholder/300/200" alt="${breed}">
+                </div>
+                <div class="listing-content">
+                    <h3 class="listing-title">${title}</h3>
+                    <p><strong>Breed:</strong> ${breed}</p>
+                    <p><strong>Age:</strong> ${age} years</p>
+                    <p><strong>Gender:</strong> ${gender}</p>
+                    <p class="listing-price">$${Number(price).toLocaleString()}</p>
+                    <p class="listing-description">${description}</p>
+                    <div class="listing-contact">
+                        <p><strong>Location:</strong> ${location}</p>
+                        <p><strong>Contact:</strong> ${contact}</p>
+                    </div>
+                </div>
+            `;
+            
+            // Add new listing to the top of the list
+            listingsContainer.insertBefore(newListing, listingsContainer.firstChild);
+            
+            // Reset form
+            document.getElementById('listingForm').reset();
+            
+            // Scroll to the new listing
+            newListing.scrollIntoView({ behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>
