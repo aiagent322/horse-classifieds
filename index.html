@@ -222,52 +222,126 @@
         <p>&copy; 2025 Horse Classifieds. All rights reserved.</p>
     </footer>
 
-    <script>
-        document.getElementById('listingForm').addEventListener('submit', function(event) {
-            event.preventDefault();
+<script>
+    // Load existing listings from localStorage on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        loadListings();
+    });
+
+    // Handle form submission
+    document.getElementById('listingForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        // Get form values
+        const title = document.getElementById('title').value;
+        const breed = document.getElementById('breed').value;
+        const age = document.getElementById('age').value;
+        const gender = document.getElementById('gender').value;
+        const price = document.getElementById('price').value;
+        const location = document.getElementById('location').value;
+        const description = document.getElementById('description').value;
+        const contact = document.getElementById('contact').value;
+        
+        // Create listing object
+        const listing = {
+            title, breed, age, gender, price, 
+            location, description, contact,
+            date: new Date().toISOString()
+        };
+        
+        // Save to localStorage
+        saveNewListing(listing);
+        
+        // Display the new listing
+        addListingToPage(listing);
+        
+        // Reset form
+        document.getElementById('listingForm').reset();
+    });
+
+    // Save listing to localStorage
+    function saveNewListing(listing) {
+        let listings = JSON.parse(localStorage.getItem('horseListings') || '[]');
+        listings.unshift(listing); // Add new listing to the beginning
+        localStorage.setItem('horseListings', JSON.stringify(listings));
+    }
+
+    // Load all listings from localStorage
+    function loadListings() {
+        const listingsContainer = document.getElementById('listingsContainer');
+        listingsContainer.innerHTML = ''; // Clear container
+        
+        let listings = JSON.parse(localStorage.getItem('horseListings') || '[]');
+        
+        // If no saved listings, add sample listings
+        if (listings.length === 0) {
+            const sampleListings = [
+                {
+                    title: '8-Year-Old Quarter Horse',
+                    breed: 'Quarter Horse',
+                    age: '8',
+                    gender: 'Gelding',
+                    price: '5500',
+                    location: 'Lexington, KY',
+                    description: 'Well-trained quarter horse with excellent temperament. Great for trail riding and beginners. Has been used in western pleasure competitions.',
+                    contact: 'John at (555) 123-4567'
+                },
+                {
+                    title: '4-Year-Old Thoroughbred',
+                    breed: 'Thoroughbred',
+                    age: '4',
+                    gender: 'Mare',
+                    price: '8200',
+                    location: 'Ocala, FL',
+                    description: 'Athletic thoroughbred with racing bloodlines. Has basic training and is ready for more advanced work. Excellent potential for eventing or dressage.',
+                    contact: 'Sarah at (555) 987-6543'
+                },
+                {
+                    title: '12-Year-Old Arabian',
+                    breed: 'Arabian',
+                    age: '12',
+                    gender: 'Stallion',
+                    price: '11000',
+                    location: 'Scottsdale, AZ',
+                    description: 'Beautiful Arabian stallion with excellent conformation. Experienced in shows and has won multiple championships. Great for breeding or experienced riders.',
+                    contact: 'Mike at (555) 456-7890'
+                }
+            ];
             
-            // Get form values
-            const title = document.getElementById('title').value;
-            const breed = document.getElementById('breed').value;
-            const age = document.getElementById('age').value;
-            const gender = document.getElementById('gender').value;
-            const price = document.getElementById('price').value;
-            const location = document.getElementById('location').value;
-            const description = document.getElementById('description').value;
-            const contact = document.getElementById('contact').value;
-            
-            // Create new listing
-            const listingsContainer = document.getElementById('listingsContainer');
-            const newListing = document.createElement('div');
-            newListing.className = 'listing';
-            
-            newListing.innerHTML = `
-                <div class="listing-image">
-                    <img src="/api/placeholder/300/200" alt="${breed}">
-                </div>
-                <div class="listing-content">
-                    <h3 class="listing-title">${title}</h3>
-                    <p><strong>Breed:</strong> ${breed}</p>
-                    <p><strong>Age:</strong> ${age} years</p>
-                    <p><strong>Gender:</strong> ${gender}</p>
-                    <p class="listing-price">$${Number(price).toLocaleString()}</p>
-                    <p class="listing-description">${description}</p>
-                    <div class="listing-contact">
-                        <p><strong>Location:</strong> ${location}</p>
-                        <p><strong>Contact:</strong> ${contact}</p>
-                    </div>
-                </div>
-            `;
-            
-            // Add new listing to the top of the list
-            listingsContainer.insertBefore(newListing, listingsContainer.firstChild);
-            
-            // Reset form
-            document.getElementById('listingForm').reset();
-            
-            // Scroll to the new listing
-            newListing.scrollIntoView({ behavior: 'smooth' });
+            localStorage.setItem('horseListings', JSON.stringify(sampleListings));
+            listings = sampleListings;
+        }
+        
+        // Add all listings to page
+        listings.forEach(listing => {
+            addListingToPage(listing);
         });
-    </script>
-</body>
-</html>
+    }
+
+    // Add a single listing to the page
+    function addListingToPage(listing) {
+        const listingsContainer = document.getElementById('listingsContainer');
+        const newListing = document.createElement('div');
+        newListing.className = 'listing';
+        
+        newListing.innerHTML = `
+            <div class="listing-image">
+                <img src="/api/placeholder/300/200" alt="${listing.breed}">
+            </div>
+            <div class="listing-content">
+                <h3 class="listing-title">${listing.title}</h3>
+                <p><strong>Breed:</strong> ${listing.breed}</p>
+                <p><strong>Age:</strong> ${listing.age} years</p>
+                <p><strong>Gender:</strong> ${listing.gender}</p>
+                <p class="listing-price">$${Number(listing.price).toLocaleString()}</p>
+                <p class="listing-description">${listing.description}</p>
+                <div class="listing-contact">
+                    <p><strong>Location:</strong> ${listing.location}</p>
+                    <p><strong>Contact:</strong> ${listing.contact}</p>
+                </div>
+            </div>
+        `;
+        
+        listingsContainer.appendChild(newListing);
+    }
+</script>
